@@ -10,15 +10,30 @@ using namespace std;
 
 int numCPUCycles(int n, int d, int c1, int c2)
 {
-    double f = c2 / (c1 * log((double)d));
+    vector<int> dp(n+1, 0);
 
-    int x = round((n - f)*c1 + c2 * log(f) / log((double)d));
+    dp[1] = 0;
+    
+    
+    for(int i = 2; i < n+1; i++)
+    {
+        if(i%d == 0)
+        {
+            dp[i] = min(dp[i-1] + c1, dp[i/d] + c2);
+        } else
+        {
+            dp[i] = dp[i-1] + c1;
+        }
+    }
 
-    return x;
+    return dp[n];
+    
 }
 
 int main(int argc, char const *argv[])
 {
-    cout << numCPUCycles(9,2,3,1);
+    cout << numCPUCycles(9,2,3,1) << endl;
+    int x = round(3/log(2));
+    // cout << x << endl;
     return 0;
 }
